@@ -7,18 +7,37 @@ import { Button } from "primereact/button";
 export default function Component() {
   const { data: session } = useSession();
   useEffect(() => {
-    makeGetCall();
+    makeGetCallToInternallyProtectedEndPoint();
   }, []);
 
-  const makeGetCall = () => {
+  const makeGetCallToInternallyProtectedEndPoint = () => {
     fetch("http://localhost:3000/api/question").then((response) => {
+      console.debug("Response", response);
+    });
+  };
+
+  const makeGetCallToExternallyProtectedEndPoint = () => {
+    fetch("http://localhost:3000/api/question/details").then((response) => {
       console.debug("Response", response);
     });
   };
 
   const protectedCallButton = () => {
     return (
-      <Button onClick={makeGetCall} label="Protected Call" icon="pi pi-check" className="ml-2" />
+      <>
+        <Button
+          onClick={makeGetCallToInternallyProtectedEndPoint}
+          label="Protected Call Internal"
+          icon="pi pi-check"
+          className="ml-2"
+        />
+        <Button
+          onClick={makeGetCallToExternallyProtectedEndPoint}
+          label="Protected Call External"
+          icon="pi pi-check"
+          className="ml-2"
+        />
+      </>
     );
   };
   if (session) {
