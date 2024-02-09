@@ -1,14 +1,11 @@
 "use client";
 
 import { useSession, signIn, signOut } from "next-auth/react";
-import { useEffect } from "react";
 import { Button } from "primereact/button";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 export default function Component() {
   const { data: session } = useSession();
-  useEffect(() => {
-    makeGetCallToInternallyProtectedEndPoint();
-  }, []);
 
   const makeGetCallToInternallyProtectedEndPoint = () => {
     fetch("http://localhost:3000/api/question").then((response) => {
@@ -21,6 +18,7 @@ export default function Component() {
       console.debug("Response", response);
     });
   };
+  console.debug("Session: ", session);
 
   const protectedCallButton = () => {
     return (
@@ -41,7 +39,6 @@ export default function Component() {
     );
   };
   if (session) {
-    console.debug(session);
     return (
       <>
         Signed in as {session?.user?.email} <br />
@@ -49,6 +46,8 @@ export default function Component() {
         {protectedCallButton()}
       </>
     );
+  }else if(session === undefined){
+    return <ProgressSpinner />;
   }
   return (
     <>
@@ -58,7 +57,7 @@ export default function Component() {
         label="Sign in with Github"
         icon="pi pi-check"
       />
-      {protectedCallButton()};
+      {/* {protectedCallButton()}; */}
     </>
   );
 }

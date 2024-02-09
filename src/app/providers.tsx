@@ -8,9 +8,9 @@ import { SessionProvider, useSession } from "next-auth/react";
 
 export default function Providers({
   children,
-}: Readonly<{ children: React.ReactNode }>): Promise<JSX.Element> {
+}: Readonly<{ children: React.ReactNode }>): JSX.Element {
   //   const session = useSession();
-  const session: any = nextAuth;
+  const session: any = undefined;
 
   //   const session = await getServerSession(authOptions);
   return <SessionProvider session={session}>{children}</SessionProvider>;
