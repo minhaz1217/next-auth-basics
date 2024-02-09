@@ -2,6 +2,7 @@
 
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect } from "react";
+import { Button } from "primereact/button";
 
 export default function Component() {
   const { data: session } = useSession();
@@ -9,27 +10,36 @@ export default function Component() {
     makeGetCall();
   }, []);
 
-
   const makeGetCall = () => {
     fetch("http://localhost:3000/api/question").then((response) => {
       console.debug("Response", response);
     });
   };
 
+  const protectedCallButton = () => {
+    return (
+      <Button onClick={makeGetCall} label="Protected Call" icon="pi pi-check" className="ml-2" />
+    );
+  };
   if (session) {
     console.debug(session);
     return (
       <>
         Signed in as {session?.user?.email} <br />
-        <button onClick={makeGetCall}>Make the Call</button>
-        <button onClick={() => signOut()}>Sign out</button>
+        <Button onClick={() => signOut()} label="Sign Out" icon="pi pi-check" />
+        {protectedCallButton()}
       </>
     );
   }
   return (
     <>
       Not signed in <br />
-      <button onClick={() => signIn("github")}>Sign in with Github</button>
+      <Button
+        onClick={() => signIn("github")}
+        label="Sign in with Github"
+        icon="pi pi-check"
+      />
+      {protectedCallButton()};
     </>
   );
 }
