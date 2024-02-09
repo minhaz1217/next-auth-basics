@@ -1,5 +1,6 @@
 ### How to start a basic project
 
+### Setting up primereact
 `npx create-next-app@latest`
 
 Add primereact
@@ -32,6 +33,16 @@ and add these
   @tailwind components;
   @tailwind utilities;
 }
+```
+
+### Setting up next auth
+```
+npm install next-auth
+```
+
+create this file
+```
+src/app/api/auth/[...nextauth].ts
 ```
 
 Start the app
